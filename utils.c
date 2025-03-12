@@ -6,27 +6,27 @@
 /*   By: nmagamad <nmagamad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:05:25 by nmagamad          #+#    #+#             */
-/*   Updated: 2025/03/11 17:30:06 by nmagamad         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:31:41 by nmagamad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-// int		get_map_len(int	fd)
-// {
-// 	t_struct s;
-	
-// 	s.map_len = 0;
-// 	while (1)
-// 	{
-// 		s.line = get_next_line(fd);
-// 		if (s.line == NULL)
-// 			break ;
-// 		s.map_len += ft_strlenn(s.line) - 1;
-// 		free (s.line);
-// 	}
-// 	return (s.map_len);
-// }
+void	init_parcing(t_parcing *s)
+{
+	if (!s)
+		return ;
+	s->tmp = NULL;
+	s->line = NULL;
+	s->mapcpy = NULL;
+	s->mapcpy2 = NULL;
+	s->x_len = 0;
+	s->y_len = 0;
+	s->map_len = 0;
+	s->len = 0;
+	s->i = 0;
+	s->fd = 0;
+}
 
 size_t	ft_strlenn(const char *str)
 {
@@ -180,4 +180,20 @@ char	**ft_split(char const *s, char c)
 	res[mots] = NULL;
 	ft_cpy(res, s, c);
 	return (res);
+}
+
+char	*ft_strchr2(const char *s, int c)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == (char)c)
+			return ((char *)s + i);
+		i++;
+	}
+	if (s[i] == (char)c)
+		return ((char *)s + i);
+	return (NULL);
 }

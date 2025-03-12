@@ -6,7 +6,7 @@
 /*   By: nmagamad <nmagamad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 15:00:20 by nmagamad          #+#    #+#             */
-/*   Updated: 2025/03/08 17:51:25 by nmagamad         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:40:19 by nmagamad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 3
 # endif
 
 # include <unistd.h>
