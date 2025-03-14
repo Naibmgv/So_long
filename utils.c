@@ -6,26 +6,39 @@
 /*   By: nmagamad <nmagamad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:05:25 by nmagamad          #+#    #+#             */
-/*   Updated: 2025/03/12 15:31:41 by nmagamad         ###   ########.fr       */
+/*   Updated: 2025/03/14 17:12:11 by nmagamad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	init_parcing(t_parcing *s)
+int		strlen_map(char *str)
 {
-	if (!s)
-		return ;
-	s->tmp = NULL;
-	s->line = NULL;
-	s->mapcpy = NULL;
-	s->mapcpy2 = NULL;
-	s->x_len = 0;
-	s->y_len = 0;
-	s->map_len = 0;
-	s->len = 0;
-	s->i = 0;
-	s->fd = 0;
+	int		i;
+	
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+int	map_count_line(char *file)
+{
+	int		fd;
+	int		i;
+	char	*line;
+
+	fd = open(file, O_RDONLY);
+	i = 0;
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
+		i++;
+		free(line);
+	}
+	return (i);
 }
 
 size_t	ft_strlenn(const char *str)

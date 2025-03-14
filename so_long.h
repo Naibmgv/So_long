@@ -6,7 +6,7 @@
 /*   By: nmagamad <nmagamad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 10:42:13 by nmagamad          #+#    #+#             */
-/*   Updated: 2025/03/12 15:31:44 by nmagamad         ###   ########.fr       */
+/*   Updated: 2025/03/14 16:36:30 by nmagamad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ typedef struct s_parcing
 	int		count_line;
 	int		x_len;
 	int 	y_len;
+	int 	y_len2;
 	int		map_len;
 	int		len;
 	int		i;
 	int		fd;
 }	t_parcing;
 
-int		check_form(t_parcing *s);
+int		check_form(char *file, t_parcing *s);
 int		check_map_name(char *map_name);
 size_t	ft_strlenn(const char *str);
 char	*ft_strcpy(char *dest, char *src);
@@ -44,5 +45,6 @@ char	*ft_strjoin2(char const *s1, char const *s2);
 void	init_parcing(t_parcing *s);
 void 	testff(t_parcing *t);
 char	*ft_strchr2(const char *s, int c);
+int		strlen_map(char *str);
 
 #endif
