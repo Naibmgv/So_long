@@ -6,7 +6,7 @@
 /*   By: magamadov <magamadov@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 10:42:13 by nmagamad          #+#    #+#             */
-/*   Updated: 2025/03/18 18:32:25 by magamadov        ###   ########.fr       */
+/*   Updated: 2025/03/20 08:21:06 by magamadov        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,21 @@ typedef struct s_parcing
 	int		line_comp;
 }	t_parcing;
 
-int		check_form(char *file, t_parcing *s);
-int		check_map_name(char *map_name);
+void	init_parcing(t_parcing *s);
+int		ft_check_form(char *file, t_parcing *s);
+int		ft_check_map_name(char *map_name);
 size_t	ft_strlenn(const char *str);
 char	*ft_strcpy(char *dest, char *src);
-char	**final_map_copy(char *file, t_parcing *s);
+char	**ft_map_copy(char *file, t_parcing *s);
 int		map_count_line(char *file);
-int		get_map_len(int	fd);
 char	*ft_strdup2(const char *s);
 char	*ft_strjoin2(char const *s1, char const *s2);
 void	init_parcing(t_parcing *s);
-void 	testff(t_parcing *t);
 char	*ft_strchr2(const char *s, int c);
 int		strlen_map(char *str); 
+void	ft_freemap(char	*file, t_parcing *s);
+char	**ft_map_copy(char *file, t_parcing *s);
+void	printTab(char *tableau[], int lignes);
+int		first_last_walls(char *str);
 
 #endif

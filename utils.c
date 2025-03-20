@@ -6,24 +6,29 @@
 /*   By: magamadov <magamadov@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:05:25 by nmagamad          #+#    #+#             */
-/*   Updated: 2025/03/18 17:43:47 by magamadov        ###   ########.fr       */
+/*   Updated: 2025/03/20 08:43:13 by magamadov        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-// int		strlen_map(char *str)
-// {
-// 	int		i;
-	
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == )
-// 	}
-// 		i++;
-// 	return (i);
-// }
+void	init_parcing(t_parcing *s)
+{
+	if (!s)
+		return ;
+	s->tmp = NULL;
+	s->line = NULL;
+	s->mapcpy = NULL;
+	s->mapcpy2 = NULL;
+	s->y_len = 0;
+	s->y_len1 = 0;
+	s->y_len2 = 0;
+	s->map_len = 0;
+	s->len = 0;
+	s->j = 0;
+	s->first_line_len = 0;
+	s->line_comp = 0;
+}
 
 int	map_count_line(char *file)
 {
@@ -212,4 +217,55 @@ char	*ft_strchr2(const char *s, int c)
 	if (s[i] == (char)c)
 		return ((char *)s + i);
 	return (NULL);
+}
+
+void printTab(char *tableau[], int lignes) {
+    for (int i = 0; i < lignes; i++) {
+        printf("%s|", tableau[i]);  
+    }
+}
+
+void	ft_freemap(char	*file, t_parcing *s)
+{
+	int		i;
+	int		y_len;
+	
+	i = 0;
+	y_len = map_count_line(file);
+	while (i < y_len && s->mapcpy[i])
+	{
+		free(s->mapcpy[i]);
+		i++;
+	}
+	free (s->mapcpy);
+	free (s->line);
+}
+
+char	**ft_map_copy(char *file, t_parcing *s)
+{
+	int		fd;
+	int		i;
+	
+	i = 0;
+	s->y_len2 = map_count_line(file);
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		return (NULL);
+	s->mapcpy = malloc(sizeof(char *) * map_count_line(file));
+	if (!s->mapcpy)
+		return (NULL);
+	while (i < s->y_len2)
+	{
+		s->line = get_next_line(fd);
+		if (!s->line)
+			break ;
+		s->mapcpy[i] = ft_strdup2(s->line);
+		if (!s->mapcpy[i])
+		{
+			ft_freemap(file, s);
+			break ;
+		}
+		i++;
+	}
+	return (s->mapcpy);
 }
