@@ -3,24 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmagamad <nmagamad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: magamadov <magamadov@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:05:25 by nmagamad          #+#    #+#             */
-/*   Updated: 2025/03/14 17:12:11 by nmagamad         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:43:47 by magamadov        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int		strlen_map(char *str)
-{
-	int		i;
+// int		strlen_map(char *str)
+// {
+// 	int		i;
 	
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == )
+// 	}
+// 		i++;
+// 	return (i);
+// }
 
 int	map_count_line(char *file)
 {

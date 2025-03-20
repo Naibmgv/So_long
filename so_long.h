@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmagamad <nmagamad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: magamadov <magamadov@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 10:42:13 by nmagamad          #+#    #+#             */
-/*   Updated: 2025/03/14 16:36:30 by nmagamad         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:32:25 by magamadov        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,14 @@ typedef struct s_parcing
 	char	**mapcpy;
 	char	*mapcpy2;
 	int		count_line;
-	int		x_len;
 	int 	y_len;
+	int 	y_len1;
 	int 	y_len2;
 	int		map_len;
 	int		len;
-	int		i;
-	int		fd;
+	int		j;
+	int		first_line_len;
+	int		line_comp;
 }	t_parcing;
 
 int		check_form(char *file, t_parcing *s);
@@ -45,6 +46,6 @@ char	*ft_strjoin2(char const *s1, char const *s2);
 void	init_parcing(t_parcing *s);
 void 	testff(t_parcing *t);
 char	*ft_strchr2(const char *s, int c);
-int		strlen_map(char *str);
+int		strlen_map(char *str); 
 
 #endif

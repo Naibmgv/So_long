@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nmagamad <nmagamad@student.42.fr>          +#+  +:+       +#+         #
+#    By: magamadov <magamadov@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/05 10:41:43 by nmagamad          #+#    #+#              #
-#    Updated: 2025/03/06 17:31:05 by nmagamad         ###   ########.fr        #
+#    Updated: 2025/03/16 22:24:13 by magamadov        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,8 @@ OBJS = ${SRCS:.c=.o}
 NAME = so_long
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g3
-MLX_FLAGS = -lmlx -framework OpenGL -framework AppKit
 RM = rm -rf
 LIBFT = ./libft
-INCLUDES = -I/usr/include -Imlx -Iincludes
-MLX_FLAGS = -Lmlx -lmlx -L/usr/lib/X11 -lXext -lX11
 
 all : ${NAME}
 

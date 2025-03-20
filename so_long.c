@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmagamad <nmagamad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: magamadov <magamadov@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 11:39:39 by nmagamad          #+#    #+#             */
-/*   Updated: 2025/03/14 17:48:35 by nmagamad         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:37:44 by magamadov        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,23 +81,24 @@ int	check_map_name(char *map_name)
 int		check_form(char *file, t_parcing *s)
 {
 	int		i;
-	int		first_line_len;
-	int		line_comp;
 
 	i = 0;
-	line_comp = 0;
-	first_line_len = ft_strlenn(s->mapcpy[i]);
-	while (i < map_count_line(file))
+	s->y_len1 = map_count_line(file);
+	while (s->j < s->y_len1)
 	{
-		line_comp = ft_strlenn(s->mapcpy[i]);
-		printf("\n|%d|%d|%s|\n", line_comp, first_line_len, s->mapcpy[i]);
-		if (s->mapcpy[i][ft_strlenn(s->mapcpy[i])] == '\0' && i + 1 == map_count_line(file))
+		if (s->mapcpy[s->j][ft_strlenn(s->mapcpy[s->j]) - 1] == '\n')
 		{
-			line_comp += 1;
+			s->mapcpy[s->j][ft_strlenn(s->mapcpy[s->j]) - 1] = '\0';
 		}
-		if (first_line_len != line_comp)
+		s->j++;
+	}
+	s->first_line_len = ft_strlenn(s->mapcpy[0]);
+	while (i < s->y_len1)
+	{
+		s->line_comp = ft_strlenn(s->mapcpy[i]);
+		if (s->first_line_len != s->line_comp || s->first_line_len == s->y_len1)
 			return (0);
-		line_comp = 0;
+		s->line_comp = 0;
 		i++;
 	}
 	return (1);
@@ -111,13 +112,14 @@ void	init_parcing(t_parcing *s)
 	s->line = NULL;
 	s->mapcpy = NULL;
 	s->mapcpy2 = NULL;
-	s->x_len = 0;
 	s->y_len = 0;
+	s->y_len1 = 0;
 	s->y_len2 = 0;
 	s->map_len = 0;
 	s->len = 0;
-	s->i = 0;
-	s->fd = 0;
+	s->j = 0;
+	s->first_line_len = 0;
+	s->line_comp = 0;
 }
 
 int	main(int ac, char **av)
@@ -127,8 +129,6 @@ int	main(int ac, char **av)
 	init_parcing(&t);
 	if (ac != 2)
 		return (1);
-	if (open(av[1], O_RDONLY) < 0)
-		return (ft_printf("Error\nLe descripteur de fichier est invalide !"));
 	if (!check_map_name(av[1]))
 	{
 		ft_printf("Error\nle fichier n'est pas en .ber !");
