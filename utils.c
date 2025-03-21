@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: magamadov <magamadov@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nmagamad <nmagamad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 17:05:25 by nmagamad          #+#    #+#             */
-/*   Updated: 2025/03/20 08:43:13 by magamadov        ###   ########.fr       */
+/*   Updated: 2025/03/21 11:42:57 by nmagamad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,24 @@ void	init_parcing(t_parcing *s)
 	s->map_len = 0;
 	s->len = 0;
 	s->j = 0;
+	s->i = 0;
 	s->first_line_len = 0;
 	s->line_comp = 0;
+	s->line_num = 0;
+}
+
+int		first_last_walls(char *str)
+{
+	int		i;
+	
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != '1')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 int	map_count_line(char *file)
@@ -203,26 +219,53 @@ char	**ft_split(char const *s, char c)
 	return (res);
 }
 
-char	*ft_strchr2(const char *s, int c)
+int		ft_strchr2(const char *s, int c)
 {
 	size_t	i;
+	size_t	count;
 
+	count = 0; 
 	i = 0;
 	while (s[i])
 	{
 		if (s[i] == (char)c)
-			return ((char *)s + i);
+			count++;
 		i++;
 	}
 	if (s[i] == (char)c)
-		return ((char *)s + i);
-	return (NULL);
+		return (1);
+	return (count);
 }
 
 void printTab(char *tableau[], int lignes) {
     for (int i = 0; i < lignes; i++) {
         printf("%s|", tableau[i]);  
     }
+}
+
+char	**ft_dup_tab(char **tab)
+{
+	int		i;
+	char	**new_tab;
+
+	if (!tab)
+		return (NULL);
+	i = 0;
+	while (tab[i])
+		i++;
+	new_tab = malloc(sizeof(char *) * (i + 1));
+	if (!new_tab)
+		return (NULL);
+	i = -1;
+	while (tab[++i])
+	{
+		new_tab[i] = ft_strdup2(tab[i]);
+		if (!new_tab[i])
+			while (--i >= 0)
+				free(new_tab[i]);
+	}
+	new_tab[i] = NULL;
+	return (new_tab);
 }
 
 void	ft_freemap(char	*file, t_parcing *s)
@@ -238,15 +281,12 @@ void	ft_freemap(char	*file, t_parcing *s)
 		i++;
 	}
 	free (s->mapcpy);
-	free (s->line);
 }
 
 char	**ft_map_copy(char *file, t_parcing *s)
 {
 	int		fd;
-	int		i;
 	
-	i = 0;
 	s->y_len2 = map_count_line(file);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
@@ -254,18 +294,60 @@ char	**ft_map_copy(char *file, t_parcing *s)
 	s->mapcpy = malloc(sizeof(char *) * map_count_line(file));
 	if (!s->mapcpy)
 		return (NULL);
-	while (i < s->y_len2)
+	while (s->i < s->y_len2)
 	{
 		s->line = get_next_line(fd);
 		if (!s->line)
 			break ;
-		s->mapcpy[i] = ft_strdup2(s->line);
-		if (!s->mapcpy[i])
+		s->mapcpy[s->i] = ft_strdup2(s->line);
+		if (!s->mapcpy[s->i])
 		{
 			ft_freemap(file, s);
 			break ;
 		}
+		s->i++;
+	}
+	free (s->line);
+	// s->mapcpy[s->i] = NULL;
+	return (s->mapcpy);
+}
+
+char	*ft_strchrr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == (char)c)
+			return ((char *)s + i);
 		i++;
 	}
-	return (s->mapcpy);
+	if (s[i] == (char)c)
+		return ((char *)s + i);
+	return (NULL);
+}
+
+int	 ft_get_j(t_parcing *s)
+{
+	s->j = 0;
+	while (s->mapcpy[s->j])
+	{	
+		if (ft_strchrr(s->mapcpy[s->j], 'P'))
+			break ;
+		s->j++;
+	}
+	return (s->j);
+}
+
+int	 ft_get_i(t_parcing *s)
+{
+	s->i = 0;
+	while (s->mapcpy[s->j][s->i])
+	{
+		if (s->mapcpy[s->j][s->i] == 'P')
+			break ;
+		s->i++;
+	}
+	return (s->i);
 }
