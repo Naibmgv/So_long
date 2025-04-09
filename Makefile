@@ -3,20 +3,23 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: magamadov <magamadov@student.42.fr>        +#+  +:+       +#+         #
+#    By: nmagamad <nmagamad@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/05 10:41:43 by nmagamad          #+#    #+#              #
-#    Updated: 2025/03/16 22:24:13 by magamadov        ###   ########.fr        #
+#    Updated: 2025/04/09 13:15:30 by nmagamad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = so_long.c utils.c
+SRCS = so_long.c so_long_key_bind.c parcing.c parcing_1.c utils.c utils_1.c utils_2.c utils_3.c
 OBJS = ${SRCS:.c=.o}
 NAME = so_long
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g3
+MLX_FLAGS = -lmlx -framework OpenGL -framework AppKit
 RM = rm -rf
 LIBFT = ./libft
+INCLUDES = -I/usr/include -Imlx -Iincludes
+MLX_FLAGS = -Lmlx -lmlx -L/usr/lib/X11 -lXext -lX11
 
 all : ${NAME}
 

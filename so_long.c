@@ -5,166 +5,129 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmagamad <nmagamad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 11:39:39 by nmagamad          #+#    #+#             */
-/*   Updated: 2025/03/21 11:52:38 by nmagamad         ###   ########.fr       */
+/*   Created: 2025/03/31 18:53:48 by nmagamad          #+#    #+#             */
+/*   Updated: 2025/04/09 13:04:45 by nmagamad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int		ft_error(char *print, char *file, t_parcing *s)
+void	init_window(t_game *game, t_parcing *s)
 {
-	ft_printf("%s", print);
-	if (s->mapcpy)
-		ft_freemap(file, s);
-	return (1);
+	game->map = s->mapcpy;
+	game->amount_col = s->count_collectibles;
+	game->x_e = ft_pos_x(game->map, 'E');
+	game->y_e = ft_pos_y(game->map, 'E');
+	game->mlx = mlx_init();
+	if (!game->mlx)
+		exit(EXIT_FAILURE);
+	game->y_len = 0;
+	game->x_len = 0;
+	while (game->map[game->y_len])
+		game->y_len++;
+	game->x_len = ft_strlen(game->map[0]);
+	game->w = mlx_new_window(game->mlx,
+			game->x_len * 64, game->y_len * 64, "So_long");
+	if (!game->w)
+		exit(EXIT_FAILURE);
 }
 
-int	ft_check_map_name(char *map_name)
+void	load_images(t_game *game)
 {
-	int	i;
-	
-	i = 0;
-	while(map_name[i])
+	int		x;
+	int		y;
+
+	x = 0;
+	y = 0;
+	game->walls = mlx_xpm_file_to_image(game->mlx, "xpm/walls.xpm", &x, &y);
+	game->back = mlx_xpm_file_to_image(game->mlx, "xpm/background.xpm", &x, &y);
+	game->play = mlx_xpm_file_to_image(game->mlx, "xpm/player.xpm", &x, &y);
+	game->coll = mlx_xpm_file_to_image(game->mlx, "xpm/coll.xpm", &x, &y);
+	game->exit = mlx_xpm_file_to_image(game->mlx, "xpm/exit.xpm", &x, &y);
+	if (!game->walls || !game->back || !game->play
+		|| !game->coll || !game->exit)
 	{
-		i++;
+		ft_printf("Error: .xpm image failed\n");
+		mlx_destroy_window(game->mlx, game->w);
+		mlx_destroy_display(game->mlx);
+		free(game->mlx);
+		exit(EXIT_FAILURE);
 	}
-	if (i > 4 && map_name[i - 4] == '.' && map_name[i - 3] == 'b' && map_name[i - 2] == 'e'
-		&& map_name[i - 1] == 'r')
-		return (1);
-	return (0);
 }
 
-int		ft_check_form(char *file, t_parcing *s)
+void	put_images(t_game *g)
 {
-	int		i;
+	int	y;
+	int	x;
 
-	i = 0;
-	
-	s->y_len1 = map_count_line(file);
-	while (s->j < s->y_len1)
+	y = 0;
+	while (y < g->y_len)
 	{
-		if (s->mapcpy[s->j][ft_strlenn(s->mapcpy[s->j]) - 1] == '\n')
+		x = 0;
+		while (x < g->x_len)
 		{
-			s->mapcpy[s->j][ft_strlenn(s->mapcpy[s->j]) - 1] = '\0';
+			if (g->map[y][x] == '1')
+				mlx_put_image_to_window(g->mlx, g->w, g->walls, x * 64, y * 64);
+			else if (g->map[y][x] == 'P')
+				mlx_put_image_to_window(g->mlx, g->w, g->play, x * 64, y * 64);
+			else if (g->map[y][x] == 'E')
+				mlx_put_image_to_window(g->mlx, g->w, g->exit, x * 64, y * 64);
+			else if (g->map[y][x] == 'C')
+				mlx_put_image_to_window(g->mlx, g->w, g->coll, x * 64, y * 64);
+			else if (g->map[y][x] == '0')
+				mlx_put_image_to_window(g->mlx, g->w, g->back, x * 64, y * 64);
+			x++;
 		}
-		s->j++;
+		y++;
 	}
-	s->first_line_len = ft_strlenn(s->mapcpy[0]);
-	while (i < s->y_len1)
+}
+
+int	destroy_map(t_game *game)
+{
+	if (game->walls)
+		mlx_destroy_image(game->mlx, game->walls);
+	if (game->play)
+		mlx_destroy_image(game->mlx, game->play);
+	if (game->exit)
+		mlx_destroy_image(game->mlx, game->exit);
+	if (game->coll)
+		mlx_destroy_image(game->mlx, game->coll);
+	if (game->w)
+		mlx_destroy_window(game->mlx, game->w);
+	if (game->map)
+		free_map(game->map);
+	if (game->mlx)
 	{
-		s->line_comp = ft_strlenn(s->mapcpy[i]);
-		if (s->first_line_len != s->line_comp || s->first_line_len == s->y_len1)
-			return (0);
-		s->line_comp = 0;
-		i++;
+		mlx_destroy_display(game->mlx);
+		free(game->mlx);
 	}
-	return (1);
-}
-
-int		ft_check_walls(char *file, t_parcing *s)
-{
-	int		j;
-
-	j = 0;
-	if (!first_last_walls(s->mapcpy[0]) ||
-	!first_last_walls(s->mapcpy[map_count_line(file) - 1]))
-			return (0);
-	while(j < map_count_line(file))
-	{
-		if (s->mapcpy[j][0] != '1'
-			|| s->mapcpy[j][ft_strlenn(s->mapcpy[j]) - 1] != '1')
-			return (0);
-		j++;
-	}
-	return (1);
-}
-int		ft_check_EP(char *file, t_parcing *s, char c)
-{
-	int		j;
-	int		count;
-
-	count = 0;
-	j = 0;
-	while (j < map_count_line(file))
-	{
-		count += ft_strchr2(s->mapcpy[j], c);
-		j++;
-	}
-	if (count != 1)
-		return (0);
-	return (1);
-}
-
-int		ft_check_C(char *file, t_parcing *s)
-{
-	int		j;
-	int		count;
-
-	count = 0;
-	j = 0;
-	while (j < map_count_line(file))
-	{
-		count += ft_strchr2(s->mapcpy[j], 'C');
-		j++;
-	}
-	if (count < 1)
-		return (0);
-	return (count);
-}
-
-int		ft_empty_check(char *file)
-{
-	char	*line;
-
-	line = get_next_line(open(file, O_RDONLY));
-	if (line == NULL)
-		return (0);
-	return (1);
-}
-
-int		dfs(int i, int j, t_parcing *s)
-{
-	
-}
-
-int		ft_floodfill(t_parcing *s)
-{
-	int		i;
-	int		j;
-
-	j = ft_get_j(s);
-	i = ft_get_i(s);
-	dfs(i, j, s);
-	printf("%c",s->mapcpy[j][i]);
-	return (1);
+	exit(0);
+	return (0);
 }
 
 int	main(int ac, char **av)
 {
 	t_parcing	t;
-	
-	init_parcing(&t);
+	t_game		game;
+
 	if (ac != 2)
 		return (1);
-	if (!open(av[1], O_RDONLY))
-		return (ft_error("Error\nle fichier n'est pas valide", av[1], &t));
-	if (!ft_check_map_name(av[1]))
-		return (ft_error("Error\nLe fichier n'est pas en .ber", av[1], &t));
-	if (!ft_empty_check(av[1]))
-		return (ft_error("Error\nLe fichier est vide", av[1], &t));
+	init_parcing_struct(&t, av[1]);
+	ft_check_map_name(av[1], &t);
 	if (!ft_map_copy(av[1], &t))
-		return (ft_error("Error\nL'allocation de la map à échoué", av[1], &t));
-	if (!ft_check_form(av[1], &t))
-		return (ft_error("Error\nLa carte n'est pas rectangulaire", av[1], &t));
-	if (!ft_check_walls(av[1], &t))
-		return (ft_error("Error\nLa carte n'est pas entourée de murs", av[1], &t));
-	if (!ft_check_EP(av[1], &t, 'P'))
-		return (ft_error("Error\nIl n'y a pas de postition de depart sur la map, ou il y a un doublon", av[1], &t));
-	if (!ft_check_EP(av[1], &t, 'E'))
-		return (ft_error("Error\nIl n'y a pas de sortie sur la map, ou il y a un doublon de sortie", av[1], &t));
-	if (!ft_check_C(av[1], &t))
-		return (ft_error("Error\nIl n'y a pas d'item sur la map", av[1], &t));
-	if (!ft_floodfill(&t))
-		return (ft_error("Error\nLe chemin n'est pas bon", av[1], &t));
+		return (ft_error("Error\nL'allocation de la map à échoué", &t));
+	ft_check_form(av[1], &t);
+	ft_check_walls(av[1], &t);
+	ft_check_p(av[1], &t);
+	ft_check_e(av[1], &t);
+	if (!ft_check_c(av[1], &t))
+		ft_error("Error\nLa map ne contient pas de consommables", &t);
+	parse(&t);
+	init_game_struct(&game);
+	init_window(&game, &t);
+	load_images(&game);
+	put_images(&game);
+	mlx_hook(game.w, 17, 0, destroy_map, &game);
+	mlx_key_hook(game.w, key_bind, &game);
+	mlx_loop(game.mlx);
 }
