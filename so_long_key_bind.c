@@ -6,7 +6,7 @@
 /*   By: nmagamad <nmagamad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 17:58:39 by nmagamad          #+#    #+#             */
-/*   Updated: 2025/04/09 12:36:05 by nmagamad         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:23:20 by nmagamad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	move_up(t_game *g, int y, int x)
 	g->map[y][x] = '0';
 	g->map[y - 1][x] = 'P';
 	g->count += 1;
-	ft_printf("%d", g->count);
+	ft_printf("movement number: %d\n", g->count);
 }
 
 void	move_left(t_game *g, int y, int x)
@@ -37,7 +37,7 @@ void	move_left(t_game *g, int y, int x)
 	g->map[y][x] = '0';
 	g->map[y][x - 1] = 'P';
 	g->count++;
-	ft_printf("%d", g->count);
+	ft_printf("movement number: %d\n", g->count);
 }
 
 void	move_down(t_game *g, int y, int x)
@@ -51,7 +51,7 @@ void	move_down(t_game *g, int y, int x)
 	g->map[y][x] = '0';
 	g->map[y + 1][x] = 'P';
 	g->count++;
-	ft_printf("%d", g->count);
+	ft_printf("movement number: %d\n", g->count);
 }
 
 void	move_right(t_game *g, int y, int x)
@@ -65,7 +65,7 @@ void	move_right(t_game *g, int y, int x)
 	g->map[y][x] = '0';
 	g->map[y][x + 1] = 'P';
 	g->count++;
-	ft_printf("%d", g->count);
+	ft_printf("movement number: %d\n", g->count);
 }
 
 int	key_bind(int keycode, void *param)

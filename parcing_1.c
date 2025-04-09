@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parcing2.c                                         :+:      :+:    :+:   */
+/*   parcing_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmagamad <nmagamad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:21:40 by nmagamad          #+#    #+#             */
-/*   Updated: 2025/04/08 18:26:27 by nmagamad         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:09:02 by nmagamad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,28 @@ int	ft_error(char *print, t_parcing *s)
 		free_map(s->mapcpy2);
 	exit (0);
 	return (1);
+}
+
+void	ft_check_chars(t_parcing *s)
+{
+	int		x;
+	int		y;
+
+	x = 0;
+	y = 0;
+	while (s->mapcpy[y])
+	{
+		while (s->mapcpy[y][x])
+		{
+			if (s->mapcpy[y][x] != 'P' && s->mapcpy[y][x] != 'E'
+				&& s->mapcpy[y][x] != 'C' && s->mapcpy[y][x] != '0'
+				&& s->mapcpy[y][x] != '1' && s->mapcpy[y][x] != '\n')
+				ft_error ("Error\nchar autre que :'P','E','0','1','C'",
+					s);
+			x++;
+		}
+		y++;
+	}
 }
 
 int	ft_check_map_name(char *map_name, t_parcing *s)

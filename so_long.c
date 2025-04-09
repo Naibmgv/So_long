@@ -6,7 +6,7 @@
 /*   By: nmagamad <nmagamad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 18:53:48 by nmagamad          #+#    #+#             */
-/*   Updated: 2025/04/09 13:04:45 by nmagamad         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:01:51 by nmagamad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int	main(int ac, char **av)
 	ft_check_map_name(av[1], &t);
 	if (!ft_map_copy(av[1], &t))
 		return (ft_error("Error\nL'allocation de la map à échoué", &t));
+	ft_check_chars(&t);
 	ft_check_form(av[1], &t);
 	ft_check_walls(av[1], &t);
 	ft_check_p(av[1], &t);

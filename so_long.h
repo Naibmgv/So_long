@@ -6,14 +6,14 @@
 /*   By: nmagamad <nmagamad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 10:42:13 by nmagamad          #+#    #+#             */
-/*   Updated: 2025/04/09 13:11:29 by nmagamad         ###   ########.fr       */
+/*   Updated: 2025/04/09 14:51:44 by nmagamad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include "libft.h"
+# include "libft/headers/libft.h"
 # include "libft/headers/get_next_line.h"
 # include "libft/headers/ft_printf.h"
 # include "mlx/mlx.h"
@@ -73,6 +73,7 @@ typedef struct s_parcing
 
 void	init_game_struct(t_game *g);
 void	init_parcing_struct(t_parcing *s, char *filee);
+void	ft_check_chars(t_parcing *s);
 int		ft_check_map_name(char *map_name, t_parcing *s);
 int		ft_check_form(char *file, t_parcing *s);
 int		ft_check_walls(char *file, t_parcing *s);

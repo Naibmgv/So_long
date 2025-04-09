@@ -6,7 +6,7 @@
 /*   By: nmagamad <nmagamad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 15:00:20 by nmagamad          #+#    #+#             */
-/*   Updated: 2025/03/12 15:40:19 by nmagamad         ###   ########.fr       */
+/*   Updated: 2025/04/09 15:09:58 by nmagamad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdarg.h>
 # include <fcntl.h>
 # include <stdlib.h>
+# include "libft.h"
 
 char	*extract_line(const char *stash);
 char	*get_next_line(int fd);
@@ -29,7 +30,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
 char	*set_stash(char	*stash);
-size_t	ft_strlen(const char *s);
+// size_t	ft_strlen(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 #endif
